@@ -15,8 +15,6 @@ models:
     description: "A staging table for products."
   - name: stg_postgres__promos
     description: "A staging table for promos."
-  - name: stg_postgres__superheroes
-    description: "A staging table for superheroes."
 
 
 
