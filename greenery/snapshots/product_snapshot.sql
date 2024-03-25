@@ -1,3 +1,5 @@
+{% snapshot product_snapshot %}
+
 {{
   config(
     target_database = target.database,
@@ -9,6 +11,7 @@
 }}
 
 SELECT
-    product_id,
-    inventory
+  *
 FROM {{ source('postgres', 'products') }}
+
+{% endsnapshot %}
