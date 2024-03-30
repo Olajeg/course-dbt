@@ -1,0 +1,30 @@
+version : 2
+
+models:
+
+  - name: fct_page_views
+    description: "fct table for page view events"
+    columns:
+      - name: event_id
+        description: "unique id for events"
+        tests:
+          - not_null
+          - unique
+    
+  - name: dim_events
+    description: "simple dim events"
+    columns:
+      - name: event_id
+        description: "unique id for events"
+        tests:
+          - not_null
+          - unique
+    
+  - name: dim_products
+    description: "simple dim products"
+    columns:
+      - name: product_id
+        description: "unique id for products"
+        tests:
+          - not_null
+          - unique

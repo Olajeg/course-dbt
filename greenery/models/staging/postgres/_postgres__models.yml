@@ -3,16 +3,51 @@ version: 2
 models:
   - name: stg_postgres__users 
     description: "A staging table for users."
+    columns:
+      - name: user_id
+        description: "Primary Key for users, varchar"
+        tests:
+          - unique
+          - not_null
   - name: stg_postgres__addresses
     description: "A staging table for addresses."
+    columns:
+      - name: address_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
   - name: stg_postgres__events
     description: "A staging table for events."
+    columns:
+      - name: event_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
   - name: stg_postgres__order_items
     description: "A staging table for item orders."
+    columns:
+      - name: order_id
+        description: "Foreign Key from stg_postgres__orders"
+        tests:
+          - not_null
   - name: stg_postgres__orders
     description: "A staging table for orders."
+    columns:
+      - name: order_id
+        description: "Pimary Key"
+        tests:
+          - unique
+          - not_null
   - name: stg_postgres__products
     description: "A staging table for products."
+    columns:
+      - name: product_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
   - name: stg_postgres__promos
     description: "A staging table for promos."
 

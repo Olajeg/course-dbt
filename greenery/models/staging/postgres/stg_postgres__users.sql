@@ -1,5 +1,5 @@
 Select 
-user_id AS user_guid,
+user_id,
 first_name,
 last_name,
 email,

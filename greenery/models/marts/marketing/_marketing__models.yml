@@ -1,0 +1,33 @@
+version : 2
+
+models:
+
+  - name: fct_user_order
+    description: "user grain: oder info"
+    columns:
+      - name: user_id
+        description: "unique id per user"
+        tests:
+          - unique
+          - not_null
+          
+  - name: dim_orders
+    description: "simple dim orders"
+    columns:
+      - name: order_id
+        description: "unique id for orders"
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_users
+    description: "simple dim users"
+    columns:
+      - name: user_id
+        description: "unique id per user"
+        tests:
+          - unique
+          - not_null
+
+
+   

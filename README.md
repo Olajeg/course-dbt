@@ -5,6 +5,20 @@ Template repository for the projects and environment of the course: Analytics en
 
 # Analytics engineering with dbt
 
+## Week 2 answers
+Users that bought more than once:
+79.84%
+
+```sql
+SELECT 
+    ROUND(
+        (SELECT COUNT(*) FROM (SELECT user_id FROM dbt_olajeg.fct_order_users WHERE number_orders > 1 GROUP BY user_id) AS more_than_once)
+        / CAST((SELECT COUNT(DISTINCT user_id) FROM dbt_olajeg.fct_order_users) AS FLOAT) 
+        * 100, 
+        2
+    ) AS percentage_users_bought_more_than_once;
+```
+
 ## Week 1 answers
 Number of users
 130
