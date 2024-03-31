@@ -6,7 +6,7 @@ Template repository for the projects and environment of the course: Analytics en
 # Analytics engineering with dbt
 
 ## Week 2 answers
-Users that bought more than once:
+**Users that bought more than once**
 79.84%
 
 ```sql
@@ -18,6 +18,38 @@ SELECT
         2
     ) AS percentage_users_bought_more_than_once;
 ```
+
+**Good indicators of repeating purchases**
+* Frequent buyer and site visitor
+* Using promotions
+* High order values
+
+**Likely not to purchase again**
+* Not visited the site in a long time
+* Only a single purchase at low price
+
+**Additional data**
+* More user specific information such as demographic data
+* Public or commercial data to have benchmarks to measure our performance against
+
+**Marts**
+* Marketing mart
+  * Focus on user-level
+  * User characteristics in relation to orders
+  * Promotion usage
+
+* Product mart
+  * Focus on product-level
+  * User interaction on the site in relation to products 
+
+**Tests**
+I focus on the most basic tests on primary keys that have to be non-null and unique. 
+Ideally one would only build tables that have passed the tests. If a large amount of bad data goes through to data users, I would ask them to disregard the most recent data update until the issue has been fixed. 
+
+
+**Snapshot**
+The following 4 products had a change in inventory: Pothos, Philodendron, Monstera, String of pearls
+
 
 ## Week 1 answers
 Number of users

@@ -9,6 +9,7 @@ models:
         tests:
           - unique
           - not_null
+
   - name: stg_postgres__addresses
     description: "A staging table for addresses."
     columns:
@@ -17,6 +18,7 @@ models:
         tests:
           - unique
           - not_null
+
   - name: stg_postgres__events
     description: "A staging table for events."
     columns:
@@ -25,6 +27,15 @@ models:
         tests:
           - unique
           - not_null
+      - name: event_type
+        tests:
+          - accepted values:
+              values:
+                - checkout
+                - package_shipped
+                - add_to_cart
+                - page_view
+
   - name: stg_postgres__order_items
     description: "A staging table for item orders."
     columns:
@@ -32,6 +43,7 @@ models:
         description: "Foreign Key from stg_postgres__orders"
         tests:
           - not_null
+
   - name: stg_postgres__orders
     description: "A staging table for orders."
     columns:
@@ -40,6 +52,7 @@ models:
         tests:
           - unique
           - not_null
+
   - name: stg_postgres__products
     description: "A staging table for products."
     columns:
@@ -48,6 +61,7 @@ models:
         tests:
           - unique
           - not_null
+          
   - name: stg_postgres__promos
     description: "A staging table for promos."
 
