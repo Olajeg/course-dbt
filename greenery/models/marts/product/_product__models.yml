@@ -10,7 +10,13 @@ models:
         tests:
           - not_null
           - unique
-    
+
+  - name: fct_product_conversoin
+    description: "fct table for conversion by product"
+
+  - name: int_events_with_products
+    description: "when events have no product, take events from order items"
+
   - name: dim_events
     description: "simple dim events"
     columns:
@@ -28,3 +34,6 @@ models:
         tests:
           - not_null
           - unique
+  
+  - name: dim_orderItems
+    description: "dim for order items"

@@ -5,6 +5,152 @@ Template repository for the projects and environment of the course: Analytics en
 
 # Analytics engineering with dbt
 
+## Week 3 answers
+**Total conversion**
+62.5%
+
+```sql
+WITH total_sessions AS (
+    SELECT 
+        product_id, 
+        COUNT(DISTINCT session_id) AS session_count
+    FROM 
+        dbt_olajeg.int_events_with_products
+    GROUP BY 
+        product_id
+),
+total_checkouts AS (
+    SELECT 
+        product_id,
+        COUNT(DISTINCT session_id) AS checkout_count
+    FROM 
+        dbt_olajeg.int_events_with_products
+    WHERE 
+        checkouts > 0
+    GROUP BY 
+        product_id
+)
+SELECT 
+    ts.product_id,
+    ts.session_count AS total_sessions,
+    COALESCE(tc.checkout_count, 0) AS total_checkouts,
+    CASE 
+        WHEN ts.session_count > 0 THEN CAST(COALESCE(tc.checkout_count, 0) AS FLOAT) / ts.session_count
+        ELSE 0 
+    END AS conversion_ratio
+FROM 
+    total_sessions ts
+LEFT JOIN 
+    total_checkouts tc ON ts.product_id = tc.product_id
+ORDER BY 
+    ts.product_id;
+```
+
+**Conversion ratio by product**
+
+```sql
+WITH total_sessions AS (
+    SELECT 
+        product_id, 
+        COUNT(DISTINCT session_id) AS session_count
+    FROM 
+        dbt_olajeg.int_events_with_products
+    GROUP BY 
+        product_id
+),
+total_checkouts AS (
+    SELECT 
+        product_id,
+        COUNT(DISTINCT session_id) AS checkout_count
+    FROM 
+        dbt_olajeg.int_events_with_products
+    WHERE 
+        checkouts > 0
+    GROUP BY 
+        product_id
+)
+SELECT 
+    ts.product_id,
+    ts.session_count AS total_sessions,
+    COALESCE(tc.checkout_count, 0) AS total_checkouts,
+    CASE 
+        WHEN ts.session_count > 0 THEN CAST(COALESCE(tc.checkout_count, 0) AS FLOAT) / ts.session_count
+        ELSE 0 
+    END AS conversion_ratio
+FROM 
+    total_sessions ts
+LEFT JOIN 
+    total_checkouts tc ON ts.product_id = tc.product_id
+ORDER BY 
+    ts.product_id;
+```
+
+**Snapshot: Products that changed from week 2 to 3**
+Inventory of the following products changed:
+String of pearls, Monstera, Philodendron, Bamboo, Pothos, ZZ Plant
+
+```sql
+WITH ranked_products AS (
+    SELECT
+        product_id,
+        name,
+        price,
+        inventory,
+        dbt_valid_from,
+        dbt_valid_to,
+        ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY dbt_valid_from DESC) AS rn
+    FROM
+        dbt_olajeg.product_snapshot
+    WHERE
+        dbt_valid_to < '2024-04-01'
+    OR 
+        dbt_valid_to IS NULL 
+),
+changed_products_ranked AS 
+(
+SELECT
+        product_id,
+        name,
+        price,
+        inventory,
+        dbt_valid_from,
+        dbt_valid_to,
+        ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY dbt_valid_from DESC) AS rn
+    FROM
+        dbt_olajeg.product_snapshot
+    WHERE
+        dbt_valid_to >= '2024-04-01'
+),
+previous_versions AS (
+    SELECT
+        a.product_id,
+        a.name AS current_product_name,
+        b.name AS previous_product_name,
+        a.price AS current_price,
+        b.price AS previous_price,
+        a.inventory AS current_inventory,
+        b.inventory AS previous_inventory,
+        a.dbt_valid_from AS current_valid_from,
+        b.dbt_valid_from AS previous_valid_from,
+        a.dbt_valid_to AS current_valid_to,
+        b.dbt_valid_to AS previous_valid_to
+    FROM
+        changed_products_ranked a
+    LEFT JOIN
+        ranked_products b ON a.product_id = b.product_id
+    WHERE 
+        a.rn = 1 
+    AND 
+        b.rn = 1
+)
+SELECT
+    *
+FROM
+    previous_versions
+;
+```
+
+
 ## Week 2 answers
 **Users that bought more than once**
 79.84%

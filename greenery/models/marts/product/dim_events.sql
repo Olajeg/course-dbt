@@ -1,13 +1,30 @@
+{% set event_type_state = dbt_utils.get_column_values(table=ref('stg_postgres__events'), column='event_type') %}
 
+with cte as 
+(
 SELECT 
   event_id,
   session_id,
   event_type,
   order_id,
+  user_id,
   created_at,
   product_id,
-  case when event_type = 'page_view' then 1 else 0 end as page_views,
-case when event_type = 'add_to_cart' then 1 else 0 end as added_to_cart,
-case when event_type = 'checkout' then 1 else 0 end as checkouts,
-case when event_type = 'package_shipped' then 1 else 0 end as shippings
+  {% for event_type in event_type_state %}
+    case when event_type = '{{event_type}}' then 1 else 0 end as is_{{event_type}},
+  {% endfor %}
 FROM {{ref('stg_postgres__events')}}
+)
+select 
+  event_id,
+  session_id,
+  event_type,
+  order_id,
+  user_id,
+  created_at,
+  product_id,
+  IS_PAGE_VIEW AS page_views,
+  IS_ADD_TO_CART AS added_to_cart,
+  IS_CHECKOUT AS checkouts,
+  IS_PACKAGE_SHIPPED AS shippings
+  from cte 
