@@ -1,0 +1,14 @@
+version: 2
+
+exposures:
+  
+  - name: Product Analytics Dashboard
+    type: dashboard
+    maturity: high
+    description: Product conversion at greenery.
+    
+    depends_on:
+      - ref('fct_product_funnel')
+
+    owner:
+      name: Olajeg

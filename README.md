@@ -5,6 +5,13 @@ Template repository for the projects and environment of the course: Analytics en
 
 # Analytics engineering with dbt
 
+## Week 4 answers
+**Snapshot**
+The following products changed inventory: String of pearls, Monstera, Philodendron, Bamboo, Pothos, ZZ Plant.
+For both String of pearls and Pothos we had a 0 inventory in the last week.
+
+By far the greatest dropout occurs at the stage between page_view and add_to_cart, as can be seen by querying  the newly created fct_product_funnel model. 
+
 ## Week 3 answers
 **Total conversion**
 62.5%
